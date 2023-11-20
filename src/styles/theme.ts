@@ -1,3 +1,14 @@
 export const theme = {
-  // Your custom stuff goes here
+  colors: {
+    white: "#ffffff",
+    black: "#000000",
+    blue: {
+      500: "#0F52BA",
+    },
+    gray: {
+      300: "#BFBFBF",
+      800: "#373737",
+      900: "#2C2C2C",
+    },
+  },
 };
