@@ -1,12 +1,5 @@
+import { type Product } from "@/services/productService";
 import { create } from "zustand";
-
-export type Product = {
-  id: string;
-  imageURL: string;
-  name: string;
-  price: number;
-  description: string;
-};
 
 type CartProduct = Product & {
   quantity: number;

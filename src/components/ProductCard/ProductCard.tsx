@@ -3,7 +3,7 @@ import Image, { type ImageProps } from "next/image";
 
 import { S } from "../ProductCard/styles";
 import { ShoppingBag } from "../icons/ShoppingBag";
-import { Product } from "@/stores/CartStore";
+import { type Product } from "@/services/productService";
 
 export type ProductCardProps = Product & {
   onAddToCart: (product: Product) => void;
@@ -15,7 +15,7 @@ export function ProductCard({ onAddToCart, ...product }: ProductCardProps) {
       <S.CardContentWrapper>
         <S.CardImageWrapper>
           <Image
-            src={{ src: product.imageURL, height: 138, width: 200 }}
+            src={{ src: product.photo, height: 138, width: 200 }}
             alt="Product image"
           />
         </S.CardImageWrapper>

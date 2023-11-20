@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "i.zst.com.br",
+        hostname: "mks-sistemas.nyc3.digitaloceanspaces.com",
       },
     ],
   },

@@ -12,6 +12,8 @@ const CardContainer = styled.div`
   justify-content: space-between;
 `;
 const CardContentWrapper = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
   padding: 16px;
 `;
 const CardImageWrapper = styled.div`
