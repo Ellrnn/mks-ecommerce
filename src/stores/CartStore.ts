@@ -1,7 +1,7 @@
 import { type Product } from "@/services/productService";
 import { create } from "zustand";
 
-type CartProduct = Product & {
+export type CartProduct = Product & {
   quantity: number;
 };
 
@@ -9,18 +9,50 @@ type CartState = {
   products: CartProduct[];
   addProduct: (product: Product) => void;
   removeProduct: (product: Product) => void;
+  deleteProduct: (produc: Product) => void;
   clearCart: () => void;
 };
 
 export const useCartStore = create<CartState>((set) => ({
   products: [],
-  addProduct: (product) => {
-    return set((state) => {
+  addProduct: (newProduct) => {
+    return set((cart) => {
+      if (cart.products.some((p) => p.id === newProduct.id)) {
+        const newProductsState = cart.products.map((oldProduct) => {
+          if (oldProduct.id === newProduct.id) {
+            oldProduct.quantity += 1;
+          }
+          return oldProduct;
+        });
+        return {
+          products: newProductsState,
+        };
+      }
       return {
-        products: [...state.products, { ...product, quantity: 1 }],
+        products: [...cart.products, { ...newProduct, quantity: 1 }],
       };
     });
   },
-  removeProduct: (name) => set((state) => ({})),
+  removeProduct: (thereIsProduct) => {
+    return set((currentCartState) => {
+      const newProductsState = currentCartState.products.map((oldProduct) => {
+        if (thereIsProduct.id === oldProduct.id && oldProduct.quantity > 1) {
+          oldProduct.quantity -= 1;
+        }
+        return oldProduct;
+      });
+      return { products: newProductsState };
+    });
+  },
+  deleteProduct: (target) => {
+    return set((oldCartState) => {
+      const newProductsState = oldCartState.products.filter((oldProduct) => {
+        return oldProduct.id !== target.id;
+      });
+      return {
+        products: newProductsState,
+      };
+    });
+  },
   clearCart: () => set(() => ({ products: [] })),
 }));
