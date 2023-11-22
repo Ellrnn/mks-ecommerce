@@ -1,30 +1,102 @@
+import React from "react";
 import { render, screen } from "@testing-library/react";
+
 import Home from "@/app/page";
+import { Providers } from "@/app/providers";
+import { GlobalStyles } from "@/styles/global";
+import { ProductCard } from "@/components/ProductCard/ProductCard";
 
 describe("Home", () => {
-  it("should have Docs text", () => {
-    render(<Home />); // ARRANGE
-
-    const myElem = screen.getByText("Docs"); // ACT
-
-    expect(myElem).toBeInTheDocument(); // ASSERT
+  test("if Home renders", () => {
+    render(
+      <Providers>
+        <GlobalStyles />
+        <Home />
+      </Providers>
+    );
   });
+  describe("ProductCard", () => {
+    const mockProduct = {
+      id: 8,
+      name: "Headset Cloud Stinger",
+      brand: "HyperX",
+      description:
+        "O HyperX Cloud Stinger™ é o headset ideal para jogadores que procuram leveza e conforto, qualidade de som superior e maior praticidade.",
+      photo:
+        "https://mks-sistemas.nyc3.digitaloceanspaces.com/products/hyperxcloudstinger.webp",
+      price: 600.0,
+    };
 
-  it('should contain the text "information"', () => {
-    render(<Home />); // ARRANGE
+    test("if ProductCart renders", () => {
+      render(
+        <Providers>
+          <GlobalStyles />
+          <ProductCard {...mockProduct} onAddToCart={() => null} />
+        </Providers>
+      );
+    });
 
-    const myElem = screen.getByText(/information/i); // ACT
+    test("if price is correctly shown", () => {
+      render(
+        <Providers>
+          <GlobalStyles />
+          <ProductCard {...mockProduct} onAddToCart={() => null} />
+        </Providers>
+      );
 
-    expect(myElem).toBeInTheDocument(); // ASSERT
-  });
+      const priceTag = screen.getByText(`R$${mockProduct.price}`);
 
-  it("should have a heading", () => {
-    render(<Home />); // ARRANGE
+      expect(priceTag).toBeInTheDocument();
+    });
 
-    const myElem = screen.getByRole("heading", {
-      name: "Learn",
-    }); // ACT
+    test("if product name is correctly shown", () => {
+      render(
+        <Providers>
+          <GlobalStyles />
+          <ProductCard {...mockProduct} onAddToCart={() => null} />
+        </Providers>
+      );
+      const nameTag = screen.getByText(mockProduct.name);
 
-    expect(myElem).toBeInTheDocument(); // ASSERT
+      expect(nameTag).toBeInTheDocument();
+    });
+
+    test("if product description is correctly shown", () => {
+      render(
+        <Providers>
+          <GlobalStyles />
+          <ProductCard {...mockProduct} onAddToCart={() => null} />
+        </Providers>
+      );
+      const descriptionTag = screen.getByText(mockProduct.description);
+
+      expect(descriptionTag).toBeInTheDocument();
+    });
+
+    test("If product image is correctly shown", () => {
+      render(
+        <Providers>
+          <GlobalStyles />
+          <ProductCard {...mockProduct} onAddToCart={() => null} />
+        </Providers>
+      );
+      const productImage = screen.getByAltText("Product image");
+
+      expect(productImage).toBeInTheDocument();
+    });
+    test("if add to cart is called", () => {
+      const mockFn = jest.fn();
+      render(
+        <Providers>
+          <GlobalStyles />
+          <ProductCard {...mockProduct} onAddToCart={mockFn} />
+        </Providers>
+      );
+
+      const addToCartButton = screen.getByTestId("add-to-product-button");
+      addToCartButton.click();
+
+      expect(mockFn).toHaveBeenCalled();
+    });
   });
 });
