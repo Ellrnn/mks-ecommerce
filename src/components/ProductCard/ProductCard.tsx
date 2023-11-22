@@ -20,7 +20,7 @@ export function ProductCard({ onAddToCart, ...product }: ProductCardProps) {
           />
         </S.CardImageWrapper>
         <S.PriceAndNameWrapper>
-          <S.ProductName>{product.name}</S.ProductName>
+          <S.ProductName>{product.name} </S.ProductName>
           <S.PriceWrapper>
             <S.Price>R${product.price}</S.Price>
           </S.PriceWrapper>
@@ -28,7 +28,10 @@ export function ProductCard({ onAddToCart, ...product }: ProductCardProps) {
         <S.Description>{product.description}</S.Description>
       </S.CardContentWrapper>
 
-      <S.BuyButton onClick={() => onAddToCart(product)}>
+      <S.BuyButton
+        data-testid="add-to-product-button"
+        onClick={() => onAddToCart(product)}
+      >
         <ShoppingBag />
         COMPRAR
       </S.BuyButton>
